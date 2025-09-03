@@ -4,24 +4,22 @@ library(readxl)
 library(ggplot2)
 library(XML)
 
-#with for loop
-sheet_list <- excel_sheets("data/clonepix_data.xlsx")
-all_sheets <- data.frame(matrix(ncol = ncol(read_xlsx("data/clonepix_data.xlsx", sheet = "Auto637678165240625000")), nrow = 0))
-colnames(all_sheets) <- colnames(read_xlsx("data/clonepix_data.xlsx", sheet = "Auto637678165240625000"))
-for (i in sheet_list) {
-  all_sheets <- rbind(all_sheets, read_xlsx("data/clonepix_data.xlsx", sheet = i))
+# Load data - try CSV first (smaller), fallback to Excel
+if(file.exists("data/clonepix_essential_data.csv")) {
+  cat("Loading data from CSV file...\n")
+  all_sheets <- read.csv("data/clonepix_essential_data.csv")
+} else if(file.exists("data/clonepix_data.xlsx")) {
+  cat("Loading data from Excel file...\n")
+  #with for loop
+  sheet_list <- excel_sheets("data/clonepix_data.xlsx")
+  all_sheets <- data.frame(matrix(ncol = ncol(read_xlsx("data/clonepix_data.xlsx", sheet = "Auto637678165240625000")), nrow = 0))
+  colnames(all_sheets) <- colnames(read_xlsx("data/clonepix_data.xlsx", sheet = "Auto637678165240625000"))
+  for (i in sheet_list) {
+    all_sheets <- rbind(all_sheets, read_xlsx("data/clonepix_data.xlsx", sheet = i))
+  }
+} else {
+  stop("Error: Neither clonepix_essential_data.csv nor clonepix_data.xlsx found in data/ folder")
 }
-#show unique for every column
-uniq <- apply(all_sheets, 2, unique)
-str(uniq)
-#with apply function
-sheet_list <- excel_sheets("data/clonepix_data.xlsx")
-all_sheets_list <- list()
-for (i in sheet_list) {
-  all_sheets_list$i <- i
-  all_sheets_list[[i]] <-read_xlsx("data/clonepix_data.xlsx", sheet = i)
-}
-big_data = do.call(rbind, all_sheets_list)
 
 
 accept <- subset(all_sheets,  all_sheets$Picked == "True")

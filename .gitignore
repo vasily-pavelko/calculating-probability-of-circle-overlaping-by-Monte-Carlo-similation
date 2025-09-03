@@ -1,4 +1,4 @@
-# Large data files
+# Large Excel files (use CSV version instead)
 *.xlsx
 
 # R files
