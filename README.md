@@ -1,9 +1,8 @@
-<<<<<<< HEAD
 # Monte Carlo Method for Calculating the Probability of Monoclonality of Cell Lines
 
 ## Plot Generation Script for Article
 
-**Authors:** S. S. Timonovaa, *, V. I. Pavelko, I. A. Kirica, V. N. Badea, A. A. Piskunova, and R. A. Khamitova
+**Authors:** S. S. Timonova, V. I. Pavelko, I. A. Kiric, V. N. Bade, A. A. Piskunov, and R. A. Khamitov
 
 ## Overview
 
@@ -31,12 +30,17 @@ The script will generate four figures (Fig2A.png, Fig2B.png, Fig2C.png, Fig2D.pn
 
 ## Data
 
-The script uses ClonePix data from `data/clonepix_data.xlsx` containing colony measurements and statistics.
-=======
-# calculating-probability-of-circle-overlapping-by-Monte-Carlo-simulation
-#
-#To calculate probability of monoclonality we generate N colonies with center in (x,y) and raduis r. 
-Radius of colonies has a distribution determined from ClonePix FL statistics.
-Generate N colonies and each of them with each of rest. In diagonal line false poitive overlapping needs to be discounted.
-Sum of matrix equal the number of overlaped colonies. Normed on number colonies is a  probability.
->>>>>>> refs/remotes/origin/master
+The script uses ClonePix colony data that can be provided in two formats:
+
+1. **CSV format** (recommended): `data/clonepix_essential_data.csv` - Contains only the 5 essential columns needed for analysis (250KB)
+2. **Excel format** (fallback): `data/clonepix_data.xlsx` - Full dataset with all 32 columns (1.6MB, excluded from git)
+
+The script automatically detects which file is available and uses the appropriate loader. The CSV version contains the same data but is much smaller and faster to load.
+
+**Essential columns used:**
+
+- `Picked` - Whether colony was selected (True/False)
+- `RadiusAverageRMS` - Average colony radius measurements
+- `AxisRatio` - Colony shape measurement
+- `Compactness` - Colony density measurement  
+- `TotalArea` - Colony area measurement
